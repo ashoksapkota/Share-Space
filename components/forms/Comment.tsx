@@ -32,14 +32,14 @@ function Comment({ echoId, currentUserImg, currentUserId }: Props) {
   const form = useForm<z.infer<typeof CommentValidation>>({
     resolver: zodResolver(CommentValidation),
     defaultValues: {
-      thread: "",
+      echo: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
     await addCommentToEcho({
       echoId,
-      commentText: values.thread,
+      commentText: values.echo,
       userId: JSON.parse(currentUserId),
       path: pathname,
     });
@@ -52,7 +52,7 @@ function Comment({ echoId, currentUserImg, currentUserId }: Props) {
       <form className="comment-form" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="thread"
+          name="echo"
           render={({ field }) => (
             <FormItem className="flex w-full items-center gap-3">
               <FormLabel>
