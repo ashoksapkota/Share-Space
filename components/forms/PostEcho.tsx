@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useOrganization } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 import {
   Form,
@@ -41,51 +42,67 @@ function PostEcho({ userId, echoId, echoText }: Props) {
   });
 
   const onSubmit = async (values: z.infer<typeof EchoValidation>) => {
-    if (echoId && echoText) {
-      await editEcho({
-        echoId,
-        text: values.echo,
-        path: pathname,
-      });
-    } else {
-      await createEcho({
-        text: values.echo,
-        author: userId,
-        communityId: organization ? organization.id : null,
-        path: pathname,
-      });
+    try {
+      if (echoId && echoText) {
+        await editEcho({
+          echoId,
+          text: values.echo,
+          path: pathname,
+        });
+        toast.success("Echo edited successfully!");
+      } else {
+        await createEcho({
+          text: values.echo,
+          author: userId,
+          communityId: organization ? organization.id : null,
+          path: pathname,
+        });
+        toast.success("Echo created successfully!");
+      }
+      router.push("/");
+    } catch (error) {
+      toast.error("Failed to save Echo. Please try again.");
     }
-
-    router.push("/");
   };
 
   return (
-    <Form {...form}>
-      <form
-        className="mt-10 flex flex-col justify-start gap-10"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <FormField
-          control={form.control}
-          name="echo"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="text-base-semibold text-light-2">
-                Content
-              </FormLabel>
-              <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-                <Textarea rows={15} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" className="bg-primary-500">
-          {echoId ? "Edit" : "Create"} Echo
-        </Button>
-      </form>
-    </Form>
+    <>
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: "black",
+            color: "white",
+            border: "1px solid white",
+          },
+        }}
+      />
+      <Form {...form}>
+        <form
+          className="mt-10 flex flex-col justify-start gap-10"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="echo"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col gap-3">
+                <FormLabel className="text-base-semibold text-light-2">
+                  Content
+                </FormLabel>
+                <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+                  <Textarea rows={15} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="bg-primary-500">
+            {echoId ? "Edit" : "Create"} Echo
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }
 

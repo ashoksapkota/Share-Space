@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 import { deleteEcho } from "@/lib/actions/echo.actions";
 
@@ -26,20 +27,39 @@ function DeleteEcho({
   if (currentUserId !== authorId) return null;
 
   const handleClick = async () => {
-    await deleteEcho(JSON.parse(echoId), pathname);
-    if (!parentId || !isComment) {
-      router.push("/");
+    try {
+      await deleteEcho(JSON.parse(echoId), pathname);
+      toast.success("Echo deleted successfully!");
+
+      if (!parentId || !isComment) {
+        router.push("/");
+      }
+    } catch (error) {
+      toast.error("Failed to delete Echo. Please try again.");
     }
   };
+
   return (
-    <Image
-      src="/assets/delete.svg"
-      alt="delte"
-      width={18}
-      height={18}
-      className="cursor-pointer object-contain"
-      onClick={handleClick}
-    />
+    <>
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: "black",
+            color: "white",
+            border: "1px solid white",
+          },
+        }}
+      />
+      <Image
+        src="/assets/delete.svg"
+        alt="delete"
+        width={18}
+        height={18}
+        className="cursor-pointer object-contain"
+        onClick={handleClick}
+      />
+    </>
   );
 }
 
