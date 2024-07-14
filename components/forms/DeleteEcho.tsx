@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
@@ -21,12 +22,13 @@ function DeleteEcho({
   parentId,
   isComment,
 }: Props) {
+  const [showConfirm, setShowConfirm] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
   if (currentUserId !== authorId) return null;
 
-  const handleClick = async () => {
+  const handleDelete = async () => {
     try {
       await deleteEcho(JSON.parse(echoId), pathname);
       toast.success("Echo deleted successfully!");
@@ -37,6 +39,19 @@ function DeleteEcho({
     } catch (error) {
       toast.error("Failed to delete Echo. Please try again.");
     }
+  };
+
+  const handleClick = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirm = async () => {
+    setShowConfirm(false);
+    await handleDelete();
+  };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
   };
 
   return (
@@ -59,6 +74,27 @@ function DeleteEcho({
         className="cursor-pointer object-contain"
         onClick={handleClick}
       />
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-black text-white border border-white p-6 rounded shadow-lg max-w-sm mx-auto">
+            <p className="mb-6">Are you sure you want to delete this echo?</p>
+            <div className="flex justify-center space-x-4">
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded"
+                onClick={handleConfirm}
+              >
+                Confirm
+              </button>
+              <button
+                className="bg-gray-300 text-black px-4 py-2 rounded"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
