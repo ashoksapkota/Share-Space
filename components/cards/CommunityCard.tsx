@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import { Button } from "../ui/button";
 
 interface Props {
@@ -16,7 +15,7 @@ interface Props {
 
 function CommunityCard({ id, name, username, imgUrl, bio, members }: Props) {
   return (
-    <article className='community-card'>
+    <article className='community-card max-w-xs'>
       <div className='flex flex-wrap items-center gap-3'>
         <Link href={`/communities/${id}`} className='relative h-12 w-12'>
           <Image

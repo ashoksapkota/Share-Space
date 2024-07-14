@@ -221,16 +221,13 @@ function EchoCard({
         )}
       </div>
 
-      {!isComment && community && (
-        <Link
-          href={`/communities/${community.id}`}
-          className="mt-5 flex items-center"
-        >
-          <p className="text-subtle-medium text-gray-1">
-            {formatDateString(createdAt)}
-            {community && ` - ${community.name} Community`}
-          </p>
+      <div className="mt-5 flex items-center">
+        <p className="text-subtle-medium text-gray-1">
+          {formatDateString(createdAt)}
+          {community && ` - ${community.name} Community`}
+        </p>
 
+        {community && (
           <Image
             src={community.image}
             alt={community.name}
@@ -238,8 +235,8 @@ function EchoCard({
             height={14}
             className="ml-1 rounded-full object-cover"
           />
-        </Link>
-      )}
+        )}
+      </div>
     </article>
   );
 }
