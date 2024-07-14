@@ -180,7 +180,7 @@ function EchoCard({
                   />
                 ))}
 
-                <Link href={`/thread/${id}`}>
+                <Link href={`/echo/${id}`}>
                   <p className="mt-1 text-subtle-medium text-gray-1">
                     {comments.length}{" "}
                     {comments.length > 1 ? "replies" : "reply"}
@@ -210,7 +210,7 @@ function EchoCard({
                   />
                 ))}
 
-                <Link href={`/thread/reactions/${id}`}>
+                <Link href={`/echo/reactions/${id}`}>
                   <p className="mt-1 text-subtle-medium text-gray-1">
                     {reactions.length} {reactions.length > 1 ? "likes" : "like"}
                   </p>

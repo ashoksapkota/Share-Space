@@ -140,14 +140,14 @@ export async function fetchUserPosts(userId: string) {
     connectToDB();
 
     // Find all echoes authored by the user with the given userId
-    const echoes = await User.findOne({ id: userId }).populate({
+    const userWithEchoes = await User.findOne({ id: userId }).populate({
       path: "echoes",
       model: Echo,
       populate: [
         {
           path: "community",
           model: Community,
-          select: "name id image _id", // Select the "name" and "_id" fields from the "Community" model
+          select: "name id image _id", // Select the "name", "id", "image", and "_id" fields from the "Community" model
         },
         {
           path: "children",
@@ -155,17 +155,25 @@ export async function fetchUserPosts(userId: string) {
           populate: {
             path: "author",
             model: User,
-            select: "name image id", // Select the "name" and "_id" fields from the "User" model
+            select: "name image id", // Select the "name", "image", and "id" fields from the "User" model
           },
         },
       ],
     });
-    return echoes;
+
+    if (!userWithEchoes) {
+      throw new Error(`User with id ${userId} not found`);
+    }
+
+    console.log("Fetched user with echoes:", userWithEchoes);
+
+    return userWithEchoes;
   } catch (error) {
     console.error("Error fetching user echoes:", error);
     throw error;
   }
 }
+
 
 export async function getUserFollowersIds(userId: string, key: string) {
   try {

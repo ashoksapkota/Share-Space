@@ -35,7 +35,7 @@ function PostEcho({ userId, echoId, echoText }: Props) {
   const form = useForm<z.infer<typeof EchoValidation>>({
     resolver: zodResolver(EchoValidation),
     defaultValues: {
-      thread: echoText || "",
+      echo: echoText || "",
       accountId: userId,
     },
   });
@@ -44,12 +44,12 @@ function PostEcho({ userId, echoId, echoText }: Props) {
     if (echoId && echoText) {
       await editEcho({
         echoId,
-        text: values.thread,
+        text: values.echo,
         path: pathname,
       });
     } else {
       await createEcho({
-        text: values.thread,
+        text: values.echo,
         author: userId,
         communityId: organization ? organization.id : null,
         path: pathname,
@@ -67,7 +67,7 @@ function PostEcho({ userId, echoId, echoText }: Props) {
       >
         <FormField
           control={form.control}
-          name="thread"
+          name="echo"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col gap-3">
               <FormLabel className="text-base-semibold text-light-2">

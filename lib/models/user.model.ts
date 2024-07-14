@@ -12,7 +12,7 @@ const followerSchema = new mongoose.Schema({
 });
 
 const reactionSchema = new mongoose.Schema({
-  thread: {
+  echo: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Echo",
   },
@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
   bio: String,
   followers: [followerSchema],
   following: [followerSchema],
-  threads: [
+  echoes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Echo",
@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.virtual("echoCount").get(function () {
-  return this.threads.length;
+  return this.echoes.length;
 });
 
 userSchema.virtual("followersCount").get(function () {

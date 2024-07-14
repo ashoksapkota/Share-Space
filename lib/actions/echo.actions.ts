@@ -9,63 +9,6 @@ import Echo from "../models/echo.model";
 import Community from "../models/community.model";
 import { fetchUsers, getUserFollowersIds } from "./user.actions";
 
-export async function fetchExplore({
-  userId,
-  pageNumber = 1,
-  pageSize = 20,
-}: {
-  userId: string;
-  pageNumber?: number;
-  pageSize?: number;
-}) {
-  try {
-    connectToDB();
-
-    // Calculate the number of posts to skip based on the page number and page size.
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    const followedUsersIds = await getUserFollowersIds(userId, "following");
-
-    // Create a query to fetch the posts that have no parent (top-level echoes) (an echo that is not a comment/reply).
-    const postsQuery = Echo.find({
-      author: { $in: followedUsersIds },
-      parentId: { $in: [null, undefined] },
-    })
-      .sort({ createdAt: "desc" })
-      .skip(skipAmount)
-      .limit(pageSize)
-      .populate({
-        path: "author",
-        model: User,
-      })
-      .populate({
-        path: "community",
-        model: Community,
-      })
-      .populate({
-        path: "children", // Populate the children field
-        populate: {
-          path: "author", // Populate the author field within children
-          model: User,
-          select: "_id name parentId image", // Select only _id and username fields of the author
-        },
-      });
-
-    // Count the total number of top-level posts (echoes) i.e., echoes that are not comments.
-    const totalPostsCount = await Echo.countDocuments({
-      author: { $in: followedUsersIds },
-      parentId: { $in: [null, undefined] },
-    }); // Get the total count of posts
-
-    const posts = await postsQuery.exec();
-
-    const isNext = totalPostsCount > skipAmount + posts.length;
-
-    return { posts, isNext };
-  } catch (error: any) {
-    throw new Error(`Error fetching echoes: ${error.message}`);
-  }
-}
 
 export async function isEchoReactedByUser({
   echoId,

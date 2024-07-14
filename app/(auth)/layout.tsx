@@ -7,8 +7,8 @@ import { dark } from "@clerk/themes";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Threads",
-  description: "A Next.js 13 Meta Threads Application clone",
+  title: "Echo",
+  description: "Be herd",
 };
 
 const inter = Inter({ subsets: ["latin"] });

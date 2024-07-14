@@ -26,7 +26,7 @@ async function Page() {
               <Link
                 key={activity.author._id}
                 href={`${
-                  (activity.parentId && `/thread/${activity.parentId}`) ||
+                  (activity.parentId && `/echo/${activity.parentId}`) ||
                   `/profile/${activity.author.id}`
                 }`}
               >
@@ -64,8 +64,8 @@ const ActivityComponent = ({ author, createdAt, activityType, text }: any) => (
     </Link>{" "}
     <>
       {activityType === "follow" && "followed you"}
-      {activityType === "reaction" && "like your thread"}
-      {text && `replied to your thread: "${truncateString(text, 100)}"`}
+      {activityType === "reaction" && "like your echo"}
+      {text && `replied to your echo: "${truncateString(text, 100)}"`}
     </>{" "}
     <span className="text-gray-1">~ {formatDateWithMeasure(createdAt)}</span>
   </p>
