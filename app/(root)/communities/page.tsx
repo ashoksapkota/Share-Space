@@ -34,23 +34,21 @@ async function Page({
         <Searchbar routeType="communities" />
       </div>
 
-      <section className="mt-9 flex flex-wrap gap-4">
+      <section className="mt-9 grid grid-cols-1 gap-4 lg:grid-cols-2">
         {result.communities.length === 0 ? (
           <p className="no-result">No communities found</p>
         ) : (
-          <>
-            {result.communities.map((community) => (
-              <CommunityCard
-                key={community.id}
-                id={community.id}
-                name={community.name}
-                username={community.username}
-                imgUrl={community.image}
-                bio={community.bio}
-                members={community.members}
-              />
-            ))}
-          </>
+          result.communities.map((community) => (
+            <CommunityCard
+              key={community.id}
+              id={community.id}
+              name={community.name}
+              username={community.username}
+              imgUrl={community.image}
+              bio={community.bio}
+              members={community.members}
+            />
+          ))
         )}
       </section>
 
