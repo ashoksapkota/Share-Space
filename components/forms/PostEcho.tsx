@@ -27,6 +27,9 @@ interface Props {
   echoText?: string;
 }
 
+// Implement rate limiting on the backend for these actions
+// Implement CSRF protection on the backend for these actions
+
 function PostEcho({ userId, echoId, echoText }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -44,6 +47,7 @@ function PostEcho({ userId, echoId, echoText }: Props) {
   const onSubmit = async (values: z.infer<typeof EchoValidation>) => {
     try {
       if (echoId && echoText) {
+        // Ensure user authorization on the backend before allowing edits
         await editEcho({
           echoId,
           text: values.echo,
@@ -51,6 +55,7 @@ function PostEcho({ userId, echoId, echoText }: Props) {
         });
         toast.success("Echo edited successfully!");
       } else {
+        // Ensure user authorization on the backend before allowing creation
         await createEcho({
           text: values.echo,
           author: userId,
@@ -61,6 +66,7 @@ function PostEcho({ userId, echoId, echoText }: Props) {
       }
       router.push("/");
     } catch (error) {
+      // Generic error message to avoid disclosing sensitive information
       toast.error("Failed to save Echo. Please try again.");
     }
   };
@@ -91,7 +97,12 @@ function PostEcho({ userId, echoId, echoText }: Props) {
                   Content
                 </FormLabel>
                 <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-                  <Textarea rows={15} {...field} />
+                  <Textarea
+                    rows={15}
+                    {...field}
+                    // Set a maximum length to prevent buffer overflow
+                    maxLength={500}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -107,3 +118,4 @@ function PostEcho({ userId, echoId, echoText }: Props) {
 }
 
 export default PostEcho;
+

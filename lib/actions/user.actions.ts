@@ -205,7 +205,6 @@ export async function fetchUsersByField(userId: string, field: string) {
   }
 }
 
-// Almost similar to Thead (search + pagination) and Community (search + pagination)
 export async function fetchUsers({
   userId,
   userIds,

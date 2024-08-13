@@ -173,20 +173,20 @@ module.exports = {
     },
     extend: {
       colors: {
-        "primary-500": "#877EFF",
-        "secondary-500": "#FFB620",
-        blue: "#0095F6",
-        "logout-btn": "#FF5A5A",
-        "navbar-menu": "rgba(16, 16, 18, 0.6)",
-        "dark-1": "#000000",
-        "dark-2": "#121417",
-        "dark-3": "#101012",
-        "dark-4": "#1F1F22",
-        "light-1": "#FFFFFF",
-        "light-2": "#EFEFEF",
-        "light-3": "#7878A3",
-        "light-4": "#5C5C7B",
-        "gray-1": "#697C89",
+        "primary-500": "#5D5FEF", // A deep, rich indigo with a hint of vibrancy
+        "secondary-500": "#FFA726", // A vibrant amber-orange that contrasts well with the primary color
+        blue: "#4FC3F7", // A bright and fresh light blue
+        "logout-btn": "#FF6F61", // A lively coral red that stands out without being too harsh
+        "navbar-menu": "rgba(34, 40, 49, 0.8)", // A modern charcoal with a slight transparency for depth
+        "dark-1": "#222831", // A dark, moody slate with a subtle blue undertone
+        "dark-2": "#2C3338", // A deep charcoal gray with a touch of warmth
+        "dark-3": "#393E46", // A medium-dark gray with a slightly cool tone
+        "dark-4": "#4E5D6A", // A softer, more approachable dark gray with blue hints
+        "light-1": "#F5F5F5", // A warm white, still very light but not stark
+        "light-2": "#E0E0E0", // A soft, neutral light gray
+        "light-3": "#B0BEC5", // A cool, soft blue-gray for subtle highlights
+        "light-4": "#78909C", // A slightly deeper blue-gray for less prominent text or elements
+        "gray-1": "#90A4AE",
         glassmorphism: "rgba(16, 16, 18, 0.60)",
       },
       boxShadow: {
