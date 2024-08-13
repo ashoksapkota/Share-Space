@@ -3,8 +3,12 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-
 import { Input } from "../ui/input";
+
+// Function to sanitize input to remove potentially harmful characters
+function sanitizeInput(input: string) {
+  return input.replace(/[^\w\s-]/gi, "").trim(); // Removing all special characters except for word characters, spaces, and hyphens
+}
 
 interface Props {
   routeType: string;
@@ -16,8 +20,10 @@ function Searchbar({ routeType }: Props) {
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      if (searchTerm) router.push(`/${routeType}?q=` + searchTerm);
-      else {
+      const sanitizedTerm = sanitizeInput(searchTerm);
+      if (sanitizedTerm) {
+        router.push(`/${routeType}?q=` + encodeURIComponent(sanitizedTerm));
+      } else {
         router.push(`/${routeType}`);
       }
     }, 300);

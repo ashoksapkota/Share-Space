@@ -72,31 +72,6 @@ export function formatDateWithMeasure(dateString: string): string {
   }
 }
 
-// export function formatDateWithMeasure(dateString: string): string {
-//   const currentDate = new Date();
-//   const inputDate = new Date(dateString);
-//   const elapsedMilliseconds = currentDate.getTime() - inputDate.getTime();
-
-//   const timeUnits = [
-//     { unit: 'second', duration: 1000 },
-//     { unit: 'minute', duration: 60 * 1000 },
-//     { unit: 'hour', duration: 60 * 60 * 1000 },
-//     { unit: 'day', duration: 24 * 60 * 60 * 1000 },
-//     { unit: 'week', duration: 7 * 24 * 60 * 60 * 1000 },
-//     { unit: 'month', duration: 30 * 24 * 60 * 60 * 1000 },
-//     { unit: 'year', duration: 365 * 24 * 60 * 60 * 1000 },
-//   ];
-
-//   for (const unit of timeUnits) {
-//     const elapsedUnit = elapsedMilliseconds / unit.duration;
-//     if (elapsedUnit < 1) {
-//       const roundedElapsed = Math.floor(elapsedUnit);
-//       return `${roundedElapsed} ${unit.unit}${roundedElapsed !== 1 ? 's' : ''} ago`;
-//     }
-//   }
-
-//   return 'a long time ago';
-// }
 
 export function truncateString(str: string, k: number): string {
   if (k >= str.length) {
